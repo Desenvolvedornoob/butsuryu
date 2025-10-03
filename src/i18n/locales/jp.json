@@ -1,0 +1,143 @@
+{
+  "common": {
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "loading": "読み込み中...",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "edit": "編集",
+    "delete": "削除",
+    "confirm": "確認",
+    "back": "戻る",
+    "next": "次へ",
+    "previous": "前へ",
+    "search": "検索",
+    "filter": "フィルター",
+    "all": "すべて",
+    "select": "選択",
+    "language": "言語",
+    "portuguese": "Português",
+    "japanese": "日本語"
+  },
+  "auth": {
+    "title": "Agenda Otics",
+    "subtitle": "従業員管理システム",
+    "loginButton": "ログイン",
+    "invalidCredentials": "メールアドレスまたはパスワードが無効です",
+    "loginError": "ログインエラー",
+    "welcome": "ようこそ",
+    "selectLanguage": "言語を選択"
+  },
+  "dashboard": {
+    "title": "ダッシュボード",
+    "welcome": "ようこそ",
+    "subtitle": "休暇、早期退社、遅刻、欠勤を追跡",
+    "myData": "マイデータ",
+    "requests": "申請",
+    "employees": "従業員",
+    "factories": "工場",
+    "monitoring": "モニタリング",
+    "data": "データとレポート",
+    "settings": "設定"
+  },
+  "monitoring": {
+    "title": "モニタリング",
+    "subtitle": "今日の出来事と今後のイベントを追跡",
+    "todayEvents": "今日の出来事",
+    "upcomingEvents": "今後のイベント",
+    "employeeStats": "従業員 - 月間の出来事",
+    "distributionChart": "出来事の分布",
+    "yearlyTotals": "年間合計",
+    "selectFactory": "工場を選択",
+    "allFactories": "すべての工場",
+    "timeOff": "休暇",
+    "earlyDeparture": "早期退社",
+    "lateness": "遅刻",
+    "absence": "欠勤",
+    "total": "合計"
+  },
+  "requests": {
+    "title": "申請",
+    "newRequest": "新しい申請",
+    "type": "タイプ",
+    "reason": "理由",
+    "startDate": "開始日",
+    "endDate": "終了日",
+    "status": "ステータス",
+    "approved": "承認済み",
+    "pending": "保留中",
+    "rejected": "却下"
+  },
+  "employees": {
+    "title": "従業員",
+    "addEmployee": "従業員を追加",
+    "name": "名前",
+    "email": "メールアドレス",
+    "phone": "電話番号",
+    "factory": "工場",
+    "group": "グループ",
+    "status": "ステータス",
+    "active": "アクティブ",
+    "inactive": "非アクティブ"
+  },
+  "factories": {
+    "title": "工場",
+    "addFactory": "工場を追加",
+    "name": "名前",
+    "address": "住所",
+    "shifts": "シフト",
+    "holidays": "祝日"
+  },
+  "navbar": {
+    "dashboard": "ダッシュボード",
+    "myData": "マイデータ",
+    "requests": "申請",
+    "employees": "従業員",
+    "factories": "工場",
+    "monitoring": "モニタリング",
+    "data": "データ",
+    "profile": "プロフィール",
+    "logout": "ログアウト"
+  },
+  "errors": {
+    "generic": "予期しないエラーが発生しました",
+    "network": "接続エラー。インターネット接続を確認してください。",
+    "unauthorized": "このページにアクセスする権限がありません",
+    "notFound": "ページが見つかりません",
+    "serverError": "内部サーバーエラー",
+    "validation": "無効なデータ",
+    "loginFailed": "ログインに失敗しました。認証情報を確認してください",
+    "signupFailed": "登録に失敗しました。もう一度お試しください",
+    "updateFailed": "データの更新に失敗しました",
+    "deleteFailed": "アイテムの削除に失敗しました",
+    "saveFailed": "データの保存に失敗しました",
+    "loadFailed": "データの読み込みに失敗しました"
+  },
+  "success": {
+    "saved": "データが正常に保存されました",
+    "updated": "データが正常に更新されました",
+    "deleted": "アイテムが正常に削除されました",
+    "created": "アイテムが正常に作成されました",
+    "loginSuccess": "ログインが正常に完了しました",
+    "signupSuccess": "登録が正常に完了しました"
+  },
+  "calendar": {
+    "title": "カレンダー",
+    "today": "今日",
+    "month": "月",
+    "week": "週",
+    "day": "日",
+    "noEvents": "イベントが見つかりません"
+  },
+  "profile": {
+    "title": "プロフィール",
+    "personalInfo": "個人情報",
+    "changePassword": "パスワード変更",
+    "currentPassword": "現在のパスワード",
+    "newPassword": "新しいパスワード",
+    "confirmPassword": "パスワード確認",
+    "updateProfile": "プロフィール更新"
+  }
+}

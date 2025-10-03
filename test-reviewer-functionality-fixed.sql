@@ -1,0 +1,121 @@
+-- ===============================================
+-- TESTE DA FUNCIONALIDADE DE REGISTRO DE REVISOR (VERSÃO CORRIGIDA)
+-- ===============================================
+
+-- Verificar se os campos foram adicionados corretamente
+SELECT 
+    table_name,
+    column_name,
+    data_type,
+    is_nullable
+FROM information_schema.columns 
+WHERE table_schema = 'public' 
+AND table_name IN ('requests', 'time_off', 'early_departures', 'lateness')
+AND column_name IN ('approved_by', 'rejected_by', 'reviewed_at')
+ORDER BY table_name, column_name;
+
+-- Verificar se existem foreign keys para os campos approved_by e rejected_by
+SELECT 
+    tc.table_name, 
+    kcu.column_name, 
+    ccu.table_name AS foreign_table_name,
+    ccu.column_name AS foreign_column_name 
+FROM 
+    information_schema.table_constraints AS tc 
+    JOIN information_schema.key_column_usage AS kcu
+      ON tc.constraint_name = kcu.constraint_name
+      AND tc.table_schema = kcu.table_schema
+    JOIN information_schema.constraint_column_usage AS ccu
+      ON ccu.constraint_name = tc.constraint_name
+      AND ccu.table_schema = tc.table_schema
+WHERE tc.constraint_type = 'FOREIGN KEY' 
+AND tc.table_schema='public'
+AND tc.table_name IN ('requests', 'time_off', 'early_departures', 'lateness')
+AND kcu.column_name IN ('approved_by', 'rejected_by');
+
+-- Criar uma solicitação de teste para verificar o funcionamento
+DO $$
+DECLARE
+    test_user_id UUID;
+    admin_user_id UUID;
+    test_request_id UUID;
+BEGIN
+    -- Buscar um usuário funcionário para criar a solicitação
+    SELECT id INTO test_user_id 
+    FROM public.profiles 
+    WHERE role = 'funcionario' 
+    LIMIT 1;
+    
+    -- Buscar um usuário admin para aprovar
+    SELECT id INTO admin_user_id 
+    FROM public.profiles 
+    WHERE role = 'admin' 
+    LIMIT 1;
+    
+    IF test_user_id IS NOT NULL AND admin_user_id IS NOT NULL THEN
+        -- Criar uma solicitação de teste
+        INSERT INTO public.time_off (id, user_id, start_date, end_date, reason, status, created_at, updated_at)
+        VALUES 
+          (gen_random_uuid(), test_user_id, CURRENT_DATE + INTERVAL '7 days', CURRENT_DATE + INTERVAL '8 days', 'Teste de funcionalidade de revisor', 'pending', NOW(), NOW())
+        RETURNING id INTO test_request_id;
+        
+        -- Simular aprovação pelo admin
+        UPDATE public.time_off 
+        SET 
+            status = 'approved',
+            approved_by = admin_user_id,
+            reviewed_at = NOW(),
+            updated_at = NOW()
+        WHERE id = test_request_id;
+        
+        RAISE NOTICE 'Solicitação de teste criada e aprovada. ID: %', test_request_id;
+        
+    ELSE
+        RAISE NOTICE 'Não foi possível encontrar usuários para teste (funcionário e admin necessários)';
+    END IF;
+END $$;
+
+-- Verificar solicitações com informações de revisor (executar após o bloco acima)
+SELECT 
+    t.id,
+    user_profile.first_name || ' ' || user_profile.last_name as solicitante,
+    t.reason,
+    t.status,
+    CASE 
+        WHEN t.approved_by IS NOT NULL THEN approver.first_name || ' ' || approver.last_name
+        WHEN t.rejected_by IS NOT NULL THEN rejecter.first_name || ' ' || rejecter.last_name
+        ELSE NULL
+    END as revisor,
+    t.reviewed_at,
+    t.created_at
+FROM public.time_off t
+JOIN public.profiles user_profile ON t.user_id = user_profile.id
+LEFT JOIN public.profiles approver ON t.approved_by = approver.id
+LEFT JOIN public.profiles rejecter ON t.rejected_by = rejecter.id
+WHERE t.status IN ('approved', 'rejected')
+AND t.created_at > NOW() - INTERVAL '1 hour'  -- Apenas registros recentes
+ORDER BY t.created_at DESC
+LIMIT 10;
+
+-- Verificar também na tabela requests se houver dados
+SELECT 
+    r.id,
+    user_profile.first_name || ' ' || user_profile.last_name as solicitante,
+    r.type,
+    r.reason,
+    r.status,
+    CASE 
+        WHEN r.approved_by IS NOT NULL THEN approver.first_name || ' ' || approver.last_name
+        WHEN r.rejected_by IS NOT NULL THEN rejecter.first_name || ' ' || rejecter.last_name
+        ELSE NULL
+    END as revisor,
+    r.reviewed_at,
+    r.created_at
+FROM public.requests r
+JOIN public.profiles user_profile ON r.user_id = user_profile.id
+LEFT JOIN public.profiles approver ON r.approved_by = approver.id
+LEFT JOIN public.profiles rejecter ON r.rejected_by = rejecter.id
+WHERE r.status IN ('approved', 'rejected')
+AND r.created_at > NOW() - INTERVAL '1 hour'  -- Apenas registros recentes
+ORDER BY r.created_at DESC
+LIMIT 10; 

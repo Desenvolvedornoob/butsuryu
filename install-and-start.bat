@@ -1,0 +1,9 @@
+@echo off
+cd %~dp0
+echo Removendo node_modules...
+if exist node_modules rmdir /s /q node_modules
+echo Instalando pacotes...
+call npm install
+echo Iniciando servidor...
+call npx vite
+pause 

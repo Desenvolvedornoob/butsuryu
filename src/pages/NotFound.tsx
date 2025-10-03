@@ -1,8 +1,12 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     console.error(
@@ -15,10 +19,10 @@ const NotFound = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
+        <p className="text-xl text-gray-600 mb-4">Oops! Página não encontrada</p>
+        <Button onClick={() => navigate(user ? '/dashboard' : '/')}>
+          Voltar para {user ? 'Dashboard' : 'Início'}
+        </Button>
       </div>
     </div>
   );

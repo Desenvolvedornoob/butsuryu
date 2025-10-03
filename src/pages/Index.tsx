@@ -1,121 +1,61 @@
-
-import React, { useState } from 'react';
-import DashboardLayout from '@/components/DashboardLayout';
-import UploadForm from '@/components/UploadForm';
-import FinancialSummary from '@/components/FinancialSummary';
-import ExpenseChart from '@/components/ExpenseChart';
-import RevenueChart from '@/components/RevenueChart';
-import TransactionsTable from '@/components/TransactionsTable';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-interface FinancialData {
-  receitas: Array<{ mes: string; valor: number }>;
-  despesas: Array<{ categoria: string; valor: number }>;
-  saldo: number;
-}
+import React from 'react';
+import { motion } from 'framer-motion';
+import Navbar from '@/components/Navbar';
+import Hero from '@/components/Hero';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCustomTexts } from '@/hooks/useCustomTexts';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
-  const [data, setData] = useState<FinancialData | null>(null);
+  const { user } = useAuth();
+  const { getText, isLoading: textsLoading } = useCustomTexts();
+  const { currentLanguage } = useLanguage();
   
-  // Sample transactions for the table
-  const mockTransactions = [
-    {
-      id: 1,
-      date: '10/05/2023',
-      description: 'Salário',
-      category: 'Renda',
-      amount: 5000,
-      type: 'receita' as const,
-    },
-    {
-      id: 2,
-      date: '15/05/2023',
-      description: 'Aluguel',
-      category: 'Moradia',
-      amount: 1500,
-      type: 'despesa' as const,
-    },
-    {
-      id: 3,
-      date: '20/05/2023',
-      description: 'Supermercado',
-      category: 'Alimentação',
-      amount: 450,
-      type: 'despesa' as const,
-    },
-    {
-      id: 4,
-      date: '25/05/2023',
-      description: 'Freela',
-      category: 'Renda Extra',
-      amount: 800,
-      type: 'receita' as const,
-    },
-    {
-      id: 5,
-      date: '30/05/2023',
-      description: 'Internet',
-      category: 'Utilidades',
-      amount: 120,
-      type: 'despesa' as const,
-    },
-  ];
-
-  const handleFileUpload = (uploadedData: FinancialData) => {
-    setData(uploadedData);
-  };
-
-  const totalReceitas = data?.receitas.reduce((sum, item) => sum + item.valor, 0) || 0;
-  const totalDespesas = data?.despesas.reduce((sum, item) => sum + item.valor, 0) || 0;
-
   return (
-    <DashboardLayout>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Dashboard Financeiro</h1>
-        <p className="text-gray-500 mt-1">
-          Visualize e gerencie suas finanças com facilidade
-        </p>
-      </div>
-
-      {!data ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="md:col-span-1">
-            <Card className="bg-white">
-              <CardHeader>
-                <CardTitle>Bem-vindo ao seu Dashboard Financeiro</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground mb-4">
-                  Para começar, faça o upload da sua planilha financeira no formato CSV ou Excel.
-                  O sistema processará seus dados e mostrará visualizações gráficas para ajudar na análise.
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Dica: Organize sua planilha com colunas para data, descrição, categoria e valor para melhores resultados.
-                </p>
-              </CardContent>
-            </Card>
+    <div className="min-h-screen flex flex-col bg-white">
+      <Navbar />
+      
+      <motion.main 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.3 }}
+        className="flex-1 flex flex-col mt-20"
+      >
+        <Hero />
+        
+        <section className="py-16 bg-gradient-to-b from-white to-blue-50">
+          <div className="container mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-6">{textsLoading ? 'Gerencie seu tempo com eficiência' : getText('home.sectionTitle', currentLanguage, 'Gerencie seu tempo com eficiência')}</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-8">
+              {textsLoading ? 'O TimeManager permite que você gerencie folgas, atrasos e saídas antecipadas de forma simples e eficiente.' : getText('home.sectionSubtitle', currentLanguage, 'O TimeManager permite que você gerencie folgas, atrasos e saídas antecipadas de forma simples e eficiente.')}
+            </p>
+            
+            {user ? (
+              <Link to="/dashboard">
+                <Button size="lg" className="rounded-full font-medium px-8">
+                  {textsLoading ? 'Acessar Dashboard' : getText('home.accessDashboard', currentLanguage, 'Acessar Dashboard')}
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/login">
+                <Button size="lg" className="rounded-full font-medium px-8">
+                  {textsLoading ? 'Começar agora' : getText('home.getStarted', currentLanguage, 'Começar agora')}
+                </Button>
+              </Link>
+            )}
           </div>
-          <div className="md:col-span-1">
-            <UploadForm onFileUpload={handleFileUpload} />
-          </div>
+        </section>
+      </motion.main>
+      
+      <footer className="bg-slate-900 text-white py-8">
+        <div className="container mx-auto text-center">
+          <p>&copy; {new Date().getFullYear()} {textsLoading ? 'OTICS TimeManager. Todos os direitos reservados.' : getText('home.footerCopyright', currentLanguage, 'OTICS TimeManager. Todos os direitos reservados.')}</p>
         </div>
-      ) : (
-        <div className="space-y-6">
-          <FinancialSummary receitas={totalReceitas} despesas={totalDespesas} saldo={data.saldo} />
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <RevenueChart data={data.receitas} />
-            <ExpenseChart data={data.despesas} />
-          </div>
-          
-          <TransactionsTable transactions={mockTransactions} />
-          
-          <div className="flex justify-center">
-            <UploadForm onFileUpload={handleFileUpload} />
-          </div>
-        </div>
-      )}
-    </DashboardLayout>
+      </footer>
+    </div>
   );
 };
 

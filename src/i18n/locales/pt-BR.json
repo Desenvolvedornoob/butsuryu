@@ -1,0 +1,143 @@
+{
+  "common": {
+    "email": "E-mail",
+    "password": "Senha",
+    "login": "Entrar",
+    "logout": "Sair",
+    "loading": "Carregando...",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "confirm": "Confirmar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "search": "Pesquisar",
+    "filter": "Filtrar",
+    "all": "Todos",
+    "select": "Selecionar",
+    "language": "Idioma",
+    "portuguese": "Português",
+    "japanese": "日本語"
+  },
+  "auth": {
+    "title": "Agenda Otics",
+    "subtitle": "Sistema de Gestão de Funcionários",
+    "loginButton": "Entrar",
+    "invalidCredentials": "E-mail ou senha inválidos",
+    "loginError": "Erro ao fazer login",
+    "welcome": "Bem-vindo",
+    "selectLanguage": "Selecionar Idioma"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Bem-vindo",
+    "subtitle": "Acompanhe suas folgas, saídas antecipadas, atrasos e faltas",
+    "myData": "Meus Dados",
+    "requests": "Solicitações",
+    "employees": "Funcionários",
+    "factories": "Fábricas",
+    "monitoring": "Monitoramento",
+    "data": "Dados e Relatórios",
+    "settings": "Configurações"
+  },
+  "monitoring": {
+    "title": "Monitoramento",
+    "subtitle": "Acompanhe os acontecimentos de hoje e os próximos eventos",
+    "todayEvents": "Acontecimentos de Hoje",
+    "upcomingEvents": "Próximos Eventos",
+    "employeeStats": "Funcionários - Acontecimentos do Mês",
+    "distributionChart": "Distribuição de Acontecimentos",
+    "yearlyTotals": "Totais do Ano",
+    "selectFactory": "Selecionar fábrica",
+    "allFactories": "Todas as fábricas",
+    "timeOff": "Folgas",
+    "earlyDeparture": "Saídas Antecipadas",
+    "lateness": "Atrasos",
+    "absence": "Faltas",
+    "total": "Total"
+  },
+  "requests": {
+    "title": "Solicitações",
+    "newRequest": "Nova Solicitação",
+    "type": "Tipo",
+    "reason": "Motivo",
+    "startDate": "Data de Início",
+    "endDate": "Data de Fim",
+    "status": "Status",
+    "approved": "Aprovado",
+    "pending": "Pendente",
+    "rejected": "Rejeitado"
+  },
+  "employees": {
+    "title": "Funcionários",
+    "addEmployee": "Adicionar Funcionário",
+    "name": "Nome",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "factory": "Fábrica",
+    "group": "Grupo",
+    "status": "Status",
+    "active": "Ativo",
+    "inactive": "Inativo"
+  },
+  "factories": {
+    "title": "Fábricas",
+    "addFactory": "Adicionar Fábrica",
+    "name": "Nome",
+    "address": "Endereço",
+    "shifts": "Turnos",
+    "holidays": "Feriados"
+  },
+  "navbar": {
+    "dashboard": "Dashboard",
+    "myData": "Meus Dados",
+    "requests": "Solicitações",
+    "employees": "Funcionários",
+    "factories": "Fábricas",
+    "monitoring": "Monitoramento",
+    "data": "Dados",
+    "profile": "Perfil",
+    "logout": "Sair"
+  },
+  "errors": {
+    "generic": "Ocorreu um erro inesperado",
+    "network": "Erro de conexão. Verifique sua internet.",
+    "unauthorized": "Você não tem permissão para acessar esta página",
+    "notFound": "Página não encontrada",
+    "serverError": "Erro interno do servidor",
+    "validation": "Dados inválidos",
+    "loginFailed": "Falha no login. Verifique suas credenciais",
+    "signupFailed": "Falha no cadastro. Tente novamente",
+    "updateFailed": "Falha ao atualizar dados",
+    "deleteFailed": "Falha ao excluir item",
+    "saveFailed": "Falha ao salvar dados",
+    "loadFailed": "Falha ao carregar dados"
+  },
+  "success": {
+    "saved": "Dados salvos com sucesso",
+    "updated": "Dados atualizados com sucesso",
+    "deleted": "Item excluído com sucesso",
+    "created": "Item criado com sucesso",
+    "loginSuccess": "Login realizado com sucesso",
+    "signupSuccess": "Cadastro realizado com sucesso"
+  },
+  "calendar": {
+    "title": "Calendário",
+    "today": "Hoje",
+    "month": "Mês",
+    "week": "Semana",
+    "day": "Dia",
+    "noEvents": "Nenhum evento encontrado"
+  },
+  "profile": {
+    "title": "Perfil",
+    "personalInfo": "Informações Pessoais",
+    "changePassword": "Alterar Senha",
+    "currentPassword": "Senha Atual",
+    "newPassword": "Nova Senha",
+    "confirmPassword": "Confirmar Senha",
+    "updateProfile": "Atualizar Perfil"
+  }
+}
