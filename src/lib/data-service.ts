@@ -261,7 +261,7 @@ export const fetchDataForCharts = async (filters: DataFilters = {}) => {
       // 1. Se há registro na requests com tipo específico, usar esse tipo
       // 2. Se NÃO há registro na requests E start_date === end_date, então é absence (falta)
       // 3. Caso contrário, é time-off (folga normal)
-      const isAbsence = originalRequest?.type === 'absence' || 
+      const isAbsence = (originalRequest && (originalRequest as any).type === 'absence') || 
                        (!originalRequest && timeOff.start_date === timeOff.end_date);
       
       // Buscar substituto se existir
