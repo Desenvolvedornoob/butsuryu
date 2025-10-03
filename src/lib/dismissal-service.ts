@@ -63,23 +63,8 @@ export const fetchDismissalData = async (filters: DismissalFilters = {}) => {
     // Buscar perfis com status 'desligamento'
     let query = supabase
       .from('profiles')
-      .select(`
-        id,
-        first_name,
-        name_japanese,
-        phone,
-        department,
-        factory_id,
-        responsible,
-        dismissal_reason,
-        created_at,
-        updated_at,
-        city,
-        hire_date,
-        birth_date,
-        prestadora
-      `)
-      .eq('status', 'desligamento');
+      .select(`*`)
+      .eq('status', 'desligamento') as any;
 
     // Aplicar filtros
     if (filters.factoryId) {
@@ -126,7 +111,7 @@ export const fetchDismissalData = async (filters: DismissalFilters = {}) => {
       return {
         id: profile.id,
         first_name: profile.first_name || '',
-        name_japanese: profile.name_japanese || '',
+        name_japanese: '',
         phone: profile.phone || '',
         department: profile.department || '',
         factoryId: profile.factory_id || '',
@@ -135,10 +120,10 @@ export const fetchDismissalData = async (filters: DismissalFilters = {}) => {
         dismissal_reason: profile.dismissal_reason || '',
         created_at: profile.created_at,
         updated_at: profile.updated_at,
-        city: profile.city || '',
-        hire_date: profile.hire_date || '',
-        birth_date: profile.birth_date || '',
-        prestadora: profile.prestadora || ''
+        city: '',
+        hire_date: '',
+        birth_date: '',
+        prestadora: ''
       };
     });
 

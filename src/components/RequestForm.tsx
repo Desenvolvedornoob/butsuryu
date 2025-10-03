@@ -244,6 +244,9 @@ const RequestForm: React.FC<RequestFormProps> = ({ type, onSuccess }) => {
         return;
       }
       
+      // Construir data final para envio (evitando problemas de timezone)
+      const finalDate = `${values.date.getFullYear()}-${String(values.date.getMonth() + 1).padStart(2, '0')}-${String(values.date.getDate()).padStart(2, '0')}T00:00:00.000Z`;
+      
       // Preparar dados para o formato esperado pelo Supabase
       const requestData: {
         type: RequestType;
@@ -274,12 +277,8 @@ const RequestForm: React.FC<RequestFormProps> = ({ type, onSuccess }) => {
           
           return subReason ? `${mainReason} - ${subReason}` : mainReason;
         })(),
+        start_date: finalDate
       };
-      
-      // Construir data final para envio (evitando problemas de timezone)
-      const finalDate = `${values.date.getFullYear()}-${String(values.date.getMonth() + 1).padStart(2, '0')}-${String(values.date.getDate()).padStart(2, '0')}T00:00:00.000Z`;
-      
-      requestData.start_date = finalDate;
       
       // Adicionar campos específicos para cada tipo
       if (type === 'time-off' && 'endDate' in values) {

@@ -452,9 +452,9 @@ export const calculateDurationInDays = (request: RequestData): number => {
   }
   
   // Para time-off e absence, calcular diferença entre datas
-  if (request.endDate || request.end_date) {
-    const startDate = new Date(request.date || request.start_date);
-    const endDate = new Date(request.endDate || request.end_date);
+  if (request.endDate) {
+    const startDate = new Date(request.date);
+    const endDate = new Date(request.endDate);
     
     // Calcular diferença em milissegundos e converter para dias
     const diffTime = Math.abs(endDate.getTime() - startDate.getTime());

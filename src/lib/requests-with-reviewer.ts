@@ -65,7 +65,7 @@ export const loadAllRequestsWithReviewer = async () => {
         approved_by: req.approved_by,
         rejected_by: req.rejected_by,
         reviewed_at: req.reviewed_at,
-        rejectReason: req.reject_reason,
+        rejectReason: (req as any).reject_reason || null,
         reviewerName: req.approved_by ? profilesMap.get(req.approved_by) : 
                      req.rejected_by ? profilesMap.get(req.rejected_by) : null
       })),

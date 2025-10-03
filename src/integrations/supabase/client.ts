@@ -206,15 +206,14 @@ export const isUserInMorningShift = async (userId: string, requestDate?: string)
     // Buscar o grupo e fábrica do usuário
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
-      .select('group_name, factory_id')
+      .select('factory_id')
       .eq('id', userId)
-      .single();
+      .single() as any;
 
 
-    if (profileError || !profile?.group_name || !profile?.factory_id) {
+    if (profileError || !profile?.factory_id) {
       console.error('Erro ao buscar perfil do usuário:', {
         profileError,
-        group_name: profile?.group_name,
         factory_id: profile?.factory_id,
         userId
       });
@@ -227,41 +226,10 @@ export const isUserInMorningShift = async (userId: string, requestDate?: string)
     // Calcular semana da data específica (1 = ímpar, 2 = par)
     const weekNumber = getCurrentWeekNumber(dateToCheck);
 
-    // Buscar configuração de qual turno está de manhã
-    const { data: morningSetting, error: morningSettingError } = await supabase
-      .from('morning_shift_setting')
-      .select('morning_turno')
-      .eq('id', 'current')
-      .single();
-
-    if (morningSettingError || !morningSetting?.morning_turno) {
-      console.error('Erro ao buscar configuração de turno da manhã:', morningSettingError);
-      return false;
-    }
-
-    const morningTurno = morningSetting.morning_turno;
-
-    // Determinar qual turno está ativo de manhã nesta semana específica
-    const activeTurno = weekNumber === morningTurno ? morningTurno : (morningTurno === 1 ? 2 : 1);
-
-    // Buscar configuração de turnos da fábrica para o turno ativo
-    const { data: shiftConfig, error: shiftConfigError } = await supabase
-      .from('factory_shift_config')
-      .select('turno, groups')
-      .eq('factory_id', profile.factory_id)
-      .eq('turno', activeTurno);
-
-    if (shiftConfigError || !shiftConfig || shiftConfig.length === 0) {
-      console.error('Erro ao buscar configuração de turnos:', shiftConfigError);
-      return false;
-    }
-
-    // Verificar se o grupo do usuário está no turno ativo desta data
-    const activeGroups = shiftConfig[0].groups || [];
-    const userInMorningShift = activeGroups.includes(profile.group_name);
-    
-    
-    return userInMorningShift;
+    // TEMPORÁRIO: Configurações de turno desabilitadas após revert
+    // TODO: Reativar quando as tabelas morning_shift_setting e factory_shift_config forem recriadas
+    console.warn('Verificação de turno da manhã desabilitada - tabelas não existem');
+    return true; // Permitir por padrão até que as tabelas sejam recriadas
   } catch (error) {
     console.error('Erro ao verificar turno da manhã:', error);
     return false;

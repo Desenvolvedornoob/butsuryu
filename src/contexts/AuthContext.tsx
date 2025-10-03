@@ -178,11 +178,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate: 
           const { data: { session } } = await supabase.auth.getSession();
           console.log('[AuthContext] Sessão ativa:', !!session);
           
-                  const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
-          .select('*, birth_date, hire_date, name_japanese, city')
-          .eq('id', user.id)
-          .single();
+                const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
 
           if (!isActive) return; // Não atualizar se o componente desmontou
 
@@ -194,26 +194,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate: 
             // Manter o usuário temporário mas indicar o erro
             setUser(prevUser => prevUser ? { ...prevUser, _loading_state: 'error' } : null);
           } else if (profileData) {
-            console.log('[AuthContext] Perfil completo encontrado, atualizando usuário.');
-            const profile = profileData as Database['public']['Tables']['profiles']['Row'];
-            const userProfile: User = {
-              id: profile.id,
-              first_name: profile.first_name || '',
-              name_japanese: (profile as any).name_japanese || '',
-              birth_date: (profile as any).birth_date || '',
-              hire_date: (profile as any).hire_date || '',
-              city: (profile as any).city || '',
-              _loading_state: 'loaded',
-              phone: profile.phone || '',
-              role: profile.role as UserRole,
-              status: profile.status as UserStatus,
-              factory_id: profile.factory_id || '',
-              department: profile.department || '',
-              responsible: profile.responsible || '',
-              created_at: profile.created_at || '',
-              updated_at: profile.updated_at || ''
-            };
-            setUser(userProfile);
+          console.log('[AuthContext] Perfil completo encontrado, atualizando usuário.');
+          const profile = profileData as Database['public']['Tables']['profiles']['Row'];
+          const userProfile: User = {
+            id: profile.id,
+            first_name: profile.first_name || '',
+            _loading_state: 'loaded',
+            phone: profile.phone || '',
+            role: profile.role as UserRole,
+            status: profile.status as UserStatus,
+            factory_id: profile.factory_id || '',
+            department: profile.department || '',
+            responsible: profile.responsible || '',
+            created_at: profile.created_at || '',
+            updated_at: profile.updated_at || ''
+          };
+          setUser(userProfile);
           } else {
             console.warn('[AuthContext] Perfil completo não encontrado para usuário existente.');
             setUser(prevUser => prevUser ? { ...prevUser, _loading_state: 'error' } : null);
